@@ -3,7 +3,7 @@
 require_once 'countylookup.civix.php';
 
 function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
-  if($geoProvider !== 'Google') {
+  if ($geoProvider !== 'Google') {
     exit;
   }
   foreach ($xml->result->address_component as $test) {
@@ -18,7 +18,8 @@ function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
   // Take off the work "County".
   $countyName = trim(str_replace('County', '', $countyName));
 
-  // For < 4.7 compatibility, do 2 API calls instead of a join
+  // For < 4.7 compatibility, do 2 API calls instead of a join.
+  // FIXME: We no longer need to support < 4.7.
   $result = civicrm_api3('StateProvince', 'get', array(
     'return' => array("id"),
     'name' => $stateName,
@@ -27,8 +28,7 @@ function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
   $result = civicrm_api3('County', 'get', array(
     'sequential' => 1,
     'state_province_id' => $state_province_id,
-  //  'state_province_id.name' => $stateName,
-    'name' => $countyName, 
+    'name' => $countyName,
   ));
   $countyId = $result['id'];
   $values['county_id'] = $countyId;
