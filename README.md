@@ -7,7 +7,7 @@ Caveats:
 * It's tested for the U.S. only - though it should work for whatever the
   equivalent of county/parish/etc. is in your part of the world.
 * It works with Google geocoding only.
-* This extension does NOT work with the geocoding scheduled job without a change to CiviCRM core:
+* This extension works when a single contact is geocoded (e.g. an address is created/updated/imported).  It does NOT work with the geocoding scheduled job without the following change to CiviCRM core:
 
 ```diff
 --- a/sites/all/modules/contrib/civicrm/CRM/Utils/Address/BatchUpdate.php
