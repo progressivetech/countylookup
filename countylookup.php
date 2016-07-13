@@ -38,6 +38,49 @@ function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
   $values['county_id'] = $countyId;
 }
 
+function countylookup_civicrm_check(&$messages) {
+  countylookup_googleIsProvider($messages);
+  countylookup_countyIsEnabled($messages);
+}
+
+function countylookup_googleIsProvider(&$messages) {
+  $geoProvider = civicrm_api3('Setting', 'getvalue', array(
+    'name' => "geoProvider",
+  ));
+  if ($geoProvider !== 'Google') {
+    $messages[] = new CRM_Utils_Check_Message(
+      'countylookup_geoProvider',
+      ts('You have enabled the County Lookup extension, but your geoprovider is not Google.'),
+      ts('Wrong geoProvider'),
+      \Psr\Log\LogLevel::WARNING,
+      'fa-globe'
+    );
+  }
+}
+function countylookup_countyIsEnabled(&$messages) {
+  // Get the value of "county" from the option values table.
+  $id = civicrm_api3('OptionValue', 'getsingle', array(
+    'return' => array("value"),
+    'option_group_id' => "address_options",
+    'name' => "county",
+  ));
+  // Get the address_options.
+  $result = civicrm_api3('Setting', 'get', array(
+    'sequential' => 1,
+    'return' => array("address_options"),
+  ));
+  // Is "county" set in address_options?
+  $countyEnabled = in_array($id['value'], $result['values'][0]['address_options']);
+  if (!$countyEnabled) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'countylookup_countyEnabled',
+      ts('You have enabled the County Lookup extension, but you have not enabled the "County" field in Administer menu » Localization » Address Settings.'),
+      ts('County field is not enabled'),
+      \Psr\Log\LogLevel::WARNING,
+      'fa-globe'
+    );
+  }
+}
 /**
  * Implements hook_civicrm_config().
  *
