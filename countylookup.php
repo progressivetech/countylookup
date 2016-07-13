@@ -6,6 +6,10 @@ function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
   if ($geoProvider !== 'Google') {
     exit;
   }
+  // When running the scheduled job you may get no results.
+  if (!$xml->result) {
+    return;
+  }
   foreach ($xml->result->address_component as $test) {
     $type = (string) $test->type[0];
     if ($type == 'administrative_area_level_1') {
