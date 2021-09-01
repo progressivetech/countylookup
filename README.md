@@ -1,4 +1,4 @@
-# coop.palantetech.countylookup
+# countylookup
 
 This extension causes the "county" field on addresses to automatically be populated when an address is created or updated.
 
@@ -11,8 +11,6 @@ Setup:
   System Settings » Mapping and Geocoding**.
 
 Caveats:
-* This extension requires CiviCRM 4.7.7 or higher.
-* It requires CiviCRM 4.7.20 or higher to work on batch geocoding (i.e. through Scheduled Jobs) without 
 * It's tested for the U.S. only - though it should work for whatever the
   equivalent of county/parish/etc. is in your part of the world.
 * It works with Google geocoding only at this time, patches welcome!

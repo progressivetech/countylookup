@@ -1,5 +1,5 @@
-Package: coop.palantetech.countylookup
-Copyright (C) 2016, Jon Goldberg <jon@palantetech.coop>
+Package: countylookup
+Copyright (C) 2021, Jon Goldberg <jon@megaphonetech.com>
 Licensed under the GNU Affero Public License 3.0 (below).
 
 -------------------------------------------------------------------------------
