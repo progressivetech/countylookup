@@ -10,6 +10,8 @@ function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
   if (!$xml->result) {
     return;
   }
+  $countyName = NULL;
+  $stateName = NULL;
   foreach ($xml->result->address_component as $test) {
     $type = (string) $test->type[0];
     if ($type == 'administrative_area_level_1') {
@@ -19,7 +21,11 @@ function countylookup_civicrm_geocoderFormat($geoProvider, &$values, $xml) {
       $countyName = (string) $test->long_name;
     }
   }
-  // Take off the work "County".
+  if (!$countyName || !$stateName) {
+    return;
+  }
+
+  // Take off the word "County".
   $countyName = trim(str_replace('County', '', $countyName));
 
   // For < 4.7 compatibility, do 2 API calls instead of a join.
